@@ -1,0 +1,33 @@
+{
+  "name": "space365-led-matrix",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "build:static": "BASE_PATH=/space365-led-matrix next build",
+    "build:local": "BASE_PATH='' next build",
+    "build:pages": "npm run build:static",
+    "deploy": "npm run build:pages && touch out/.nojekyll && gh-pages -d out -t"
+  },
+  "dependencies": {
+    "next": "^15.5.9",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.12",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
+    "autoprefixer": "10.4.19",
+    "eslint": "8.57.0",
+    "eslint-config-next": "15.5.9",
+    "gh-pages": "^6.1.1",
+    "postcss": "8.4.38",
+    "tailwindcss": "3.4.10",
+    "typescript": "5.5.4"
+  }
+}

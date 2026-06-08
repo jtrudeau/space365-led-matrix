@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", "Roboto Mono", "Consolas", monospace;
+  --ink: #172126;
+  --paper: #f6f1e8;
+  --surface: #fffdf7;
+  --line: #263238;
+  --steel: #44606b;
+  --aqua: #00a6a6;
+  --lime: #8cc63f;
+  --sun: #f4b740;
+  --red: #d33f49;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(90deg, rgba(23, 33, 38, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(23, 33, 38, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, #fbf8f1 0%, var(--paper) 58%, #e7f2ef 100%);
+  background-size: 28px 28px, 28px 28px, auto;
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.panel {
+  border: 2px solid var(--line);
+  background: var(--surface);
+  box-shadow: 4px 4px 0 rgba(23, 33, 38, 0.18);
+}
+
+.btn {
+  display: inline-flex;
+  min-height: 2.55rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  padding: 0.58rem 0.8rem;
+  font-weight: 850;
+  line-height: 1;
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.btn-primary {
+  background: var(--sun);
+}
+
+.btn-dark {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.btn-active {
+  background: var(--aqua);
+  color: #ffffff;
+}
+
+@media (hover: hover) {
+  .btn:hover:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+}
+
+.field {
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  padding: 0.58rem 0.7rem;
+  font-weight: 750;
+}
+
+.code-block {
+  font-family: var(--font-mono);
+  tab-size: 2;
+}
+
+.sr-label {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
