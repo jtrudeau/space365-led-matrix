@@ -1,8 +1,14 @@
-# SPACE365 LED Matrix Designer
+# SPACE365 LED Matrix Animator
 
-Student-facing 8x8 WS2812B LED matrix animator for Make Things That Matter.
+Student-facing 8x8 WS2812B LED matrix animator for the SPACE365 Make Things That Matter course.
 
-The app lets students draw one or more 8x8 frames, then copy or download a working Arduino `.ino` sketch. Multi-frame animations play each frame with a 2 second delay.
+Students use this app to draw one or more 8x8 LED frames, then copy or download a working Arduino `.ino` sketch for a physical WS2812B LED matrix. Multi-frame animations play each frame with a 2 second delay.
+
+Live site:
+
+```text
+https://jtrudeau.github.io/space365-led-matrix/
+```
 
 ## Run Locally
 
@@ -30,3 +36,11 @@ For GitHub Pages:
 ```bash
 npm run build:pages
 ```
+
+## Deploy
+
+```bash
+npm run deploy
+```
+
+This builds the static site with the `/space365-led-matrix` base path and publishes the `out/` folder to the `gh-pages` branch.
