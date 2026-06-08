@@ -368,36 +368,69 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(340px,0.95fr)_minmax(360px,0.85fr)_minmax(360px,0.95fr)]">
+        <section className="panel min-w-0 p-4">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-xl font-black">Frames ({frames.length})</h2>
+              <p className="mt-1 text-sm font-bold text-[var(--steel)]">
+                Each frame plays for 2 seconds in the Arduino sketch.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" className="btn btn-primary" onClick={addFrame}>
+                Add
+              </button>
+              <button type="button" className="btn" onClick={duplicateFrame}>
+                Duplicate
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={deleteFrame}
+                disabled={frames.length === 1}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {frames.map((frame, frameIndex) => (
+              <button
+                type="button"
+                key={frameIndex}
+                className={`w-28 shrink-0 border-2 border-[var(--line)] bg-white p-2 text-left transition ${
+                  frameIndex === currentFrameIndex ? "ring-4 ring-[var(--sun)]" : ""
+                }`}
+                onClick={() => setCurrentFrameIndex(frameIndex)}
+              >
+                <div className="mb-2 grid aspect-square grid-cols-8 gap-[2px] bg-[#101719] p-1">
+                  {frame.flatMap((row, rowIndex) =>
+                    row.map((pixel, colIndex) => (
+                      <span
+                        key={`${rowIndex}-${colIndex}`}
+                        className="aspect-square"
+                        style={{
+                          backgroundColor:
+                            pixel.color.toLowerCase() === OFF ? "#202a2e" : pixel.color,
+                        }}
+                      />
+                    ))
+                  )}
+                </div>
+                <span className="text-xs font-black">Frame {frameIndex + 1}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(560px,1.45fr)_minmax(360px,0.85fr)]">
           <div className="panel min-w-0 p-4">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-black">Canvas: Frame {currentFrameIndex + 1}</h2>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  className={`btn ${tool === "paint" ? "btn-active" : ""}`}
-                  onClick={() => setTool("paint")}
-                >
-                  Paint
-                </button>
-                <button
-                  type="button"
-                  className={`btn ${tool === "erase" ? "btn-active" : ""}`}
-                  onClick={() => setTool("erase")}
-                >
-                  Erase
-                </button>
-                <button
-                  type="button"
-                  className={`btn ${tool === "pick" ? "btn-active" : ""}`}
-                  onClick={() => setTool("pick")}
-                >
-                  Pick
-                </button>
-              </div>
             </div>
 
-            <div className="mx-auto grid w-full max-w-[520px] grid-cols-8 gap-2 rounded-sm border-4 border-[#101719] bg-[#101719] p-3">
+            <div className="mx-auto grid aspect-square w-full max-w-[680px] grid-cols-8 gap-2 rounded-sm border-4 border-[#101719] bg-[#101719] p-3 sm:gap-3 sm:p-4">
               {currentFrame.map((row, rowIndex) =>
                 row.map((pixel, colIndex) => {
                   const isOff = pixel.color.toLowerCase() === OFF;
@@ -406,7 +439,7 @@ export default function Home() {
                       type="button"
                       key={`${currentFrameIndex}-${rowIndex}-${colIndex}`}
                       aria-label={`Row ${rowIndex + 1}, column ${colIndex + 1}`}
-                      className="aspect-square min-h-9 rounded-full border-2 border-white/20 transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[var(--sun)] sm:min-h-12"
+                      className="aspect-square rounded-full border-2 border-white/20 transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[var(--sun)]"
                       style={{
                         backgroundColor: isOff ? "#202a2e" : pixel.color,
                         boxShadow: isOff
@@ -439,96 +472,34 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid min-w-0 gap-5">
+          <aside className="grid min-w-0 content-start gap-5">
             <div className="panel min-w-0 p-4">
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-                <h2 className="text-xl font-black">Frames</h2>
-                <span className="border-2 border-[var(--line)] bg-[#e7f2ef] px-2 py-1 text-xs font-black">
-                  2 sec delay
-                </span>
-              </div>
-
-              <div className="mb-4 flex flex-wrap gap-2">
-                <button type="button" className="btn btn-primary" onClick={addFrame}>
-                  Add
-                </button>
-                <button type="button" className="btn" onClick={duplicateFrame}>
-                  Duplicate
+              <h2 className="mb-3 text-xl font-black">Drawing Tools</h2>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className={`btn ${tool === "paint" ? "btn-active" : ""}`}
+                  onClick={() => setTool("paint")}
+                >
+                  Paint
                 </button>
                 <button
                   type="button"
-                  className="btn"
-                  onClick={deleteFrame}
-                  disabled={frames.length === 1}
+                  className={`btn ${tool === "erase" ? "btn-active" : ""}`}
+                  onClick={() => setTool("erase")}
                 >
-                  Delete
+                  Erase
+                </button>
+                <button
+                  type="button"
+                  className={`btn ${tool === "pick" ? "btn-active" : ""}`}
+                  onClick={() => setTool("pick")}
+                >
+                  Pick
                 </button>
               </div>
-
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-2">
-                {frames.map((frame, frameIndex) => (
-                  <button
-                    type="button"
-                    key={frameIndex}
-                    className={`border-2 border-[var(--line)] bg-white p-2 text-left transition ${
-                      frameIndex === currentFrameIndex ? "ring-4 ring-[var(--sun)]" : ""
-                    }`}
-                    onClick={() => setCurrentFrameIndex(frameIndex)}
-                  >
-                    <div className="mb-2 grid grid-cols-8 gap-[2px] bg-[#101719] p-1">
-                      {frame.flatMap((row, rowIndex) =>
-                        row.map((pixel, colIndex) => (
-                          <span
-                            key={`${rowIndex}-${colIndex}`}
-                            className="aspect-square"
-                            style={{
-                              backgroundColor:
-                                pixel.color.toLowerCase() === OFF ? "#202a2e" : pixel.color,
-                            }}
-                          />
-                        ))
-                      )}
-                    </div>
-                    <span className="text-xs font-black">Frame {frameIndex + 1}</span>
-                  </button>
-                ))}
-              </div>
             </div>
 
-            <div className="panel min-w-0 p-4">
-              <h2 className="mb-3 text-xl font-black">Arduino Settings</h2>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <label className="grid gap-1 text-sm font-black">
-                  Brightness
-                  <input
-                    className="field"
-                    type="number"
-                    min={1}
-                    max={255}
-                    value={brightness}
-                    onChange={(event) =>
-                      setBrightness(Math.max(1, Math.min(255, Number(event.target.value) || 1)))
-                    }
-                  />
-                </label>
-                <label className="grid gap-1 text-sm font-black">
-                  Data pin
-                  <input
-                    className="field"
-                    type="number"
-                    min={0}
-                    max={13}
-                    value={dataPin}
-                    onChange={(event) =>
-                      setDataPin(Math.max(0, Math.min(13, Number(event.target.value) || 0)))
-                    }
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <aside className="grid min-w-0 gap-5">
             <div className="panel min-w-0 p-4">
               <h2 className="mb-3 text-xl font-black">Colors</h2>
               <div className="mb-4 flex items-center gap-3">
@@ -567,6 +538,38 @@ export default function Home() {
                     {swatch.name}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            <div className="panel min-w-0 p-4">
+              <h2 className="mb-3 text-xl font-black">Arduino Settings</h2>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                <label className="grid gap-1 text-sm font-black">
+                  Brightness
+                  <input
+                    className="field"
+                    type="number"
+                    min={1}
+                    max={255}
+                    value={brightness}
+                    onChange={(event) =>
+                      setBrightness(Math.max(1, Math.min(255, Number(event.target.value) || 1)))
+                    }
+                  />
+                </label>
+                <label className="grid gap-1 text-sm font-black">
+                  Data pin
+                  <input
+                    className="field"
+                    type="number"
+                    min={0}
+                    max={13}
+                    value={dataPin}
+                    onChange={(event) =>
+                      setDataPin(Math.max(0, Math.min(13, Number(event.target.value) || 0)))
+                    }
+                  />
+                </label>
               </div>
             </div>
 
